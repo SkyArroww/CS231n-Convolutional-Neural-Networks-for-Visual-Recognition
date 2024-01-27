@@ -2,7 +2,10 @@
 
 
 
-## Exercise 1 K-Nearest Neighbor Classifier
+## Exercise1. K-Nearest Neighbor Classifier
+
+Understand the basic Image Classification pipeline, cross-validation, and gain proficiency in writing efficient, vectorized code.
+
 
 ### Cifar-10 数据集
 
@@ -38,3 +41,31 @@ X_test  $ 500\times3072$
 ### N-折交叉验证
 
 * 把训练集再分成N份，每次选一份作为测试集，剩下的作为训练集。以此来找出表现最好的k
+
+## Exercise2. 训练一个SVM(Support Vector Machine)
+
+In this exercise you will:
+
+- implement a fully-vectorized **loss function** for the SVM
+- implement the fully-vectorized expression for its **analytic gradient**
+- **check your implementation** using numerical gradient
+- use a validation set to **tune the learning rate and regularization** strength
+- **optimize** the loss function with **SGD**
+- **visualize** the final learned weights
+
+### 数据处理
+
+- 引入dev集
+- 将每个图片的原始数据补上一个1当做矩阵的偏置项，这样b就不用单独训练
+
+### 损失函数与梯度
+
+$$
+Hinge Loss:L_i = \sum_{j\neq y_i}max(0, s_j-s_{y_i} + 1)
+$$
+
+Loss可用上式计算得出。
+
+梯度即为每个像素的值
+
+### 随机梯度下降SGD
