@@ -76,7 +76,8 @@ class KNearestNeighbor(object):
                 # not use a loop over dimension, nor use np.linalg.norm().          #
                 #####################################################################
                 # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
-
+                dists[i, j] = np.sqrt(np.sum(np.square(self.X_train[j] - X[i])))
+                
                 pass
 
                 # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
@@ -100,7 +101,11 @@ class KNearestNeighbor(object):
             # Do not use np.linalg.norm().                                        #
             #######################################################################
             # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
-
+            dists[i, :] = np.sqrt(np.sum(np.square(self.X_train - X[i]), axis=1))
+            # dists: 500*5000
+            # X_train: 5000*3072 
+            # X[i]: 3072 按行复制，自动补全为5000*3072
+            # axis=1: 每行进行求和，得到5000*1, 自动变为(5000,) 一维行向量, 即为该测试样本与训练样本的距离
             pass
 
             # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
@@ -130,7 +135,11 @@ class KNearestNeighbor(object):
         #       and two broadcast sums.                                         #
         #########################################################################
         # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
-
+        dists = np.sqrt(np.sum(np.square(self.X_train), axis=1) + np.sum(np.square(X), axis=1)[:, np.newaxis] - 2 * np.dot(X, self.X_train.T))
+        # 根据平方差公式，将距离公式转换为三个部分的和
+        # 第一部分：训练集的平方和，每个样本的平方和，得到一个5000*1的列向量 （5000，）自动broadcast为（500，5000）的矩阵
+        # 第二部分：测试集的平方和，每个样本的平方和，得到一个500*1的列向量 （500，1） 自动broadcast为（500，5000）的矩阵
+        # 第三部分：测试集与训练集的内积，得到一个500*5000的矩阵
         pass
 
         # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
@@ -163,7 +172,9 @@ class KNearestNeighbor(object):
             # Hint: Look up the function numpy.argsort.                             #
             #########################################################################
             # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
-
+            rnk = np.argsort(dists[i])
+            for j in range(k):
+                closest_y.append(self.y_train[rnk[j]])
             pass
 
             # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
@@ -175,7 +186,7 @@ class KNearestNeighbor(object):
             # label.                                                                #
             #########################################################################
             # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
-
+            y_pred[i] = np.argmax(np.bincount(closest_y))
             pass
 
             # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
