@@ -60,9 +60,26 @@ Hinge Loss:L_i = \sum_{j\neq y_i}max(0, s_j-s_{y_i} + 1)
 $$
 
 * Loss可用上式计算得出。
-
 * 梯度即为每个像素的值
 
 ### 随机梯度下降SGD
 
 * 每次选择Minibatch（约200个样本）进行训练和梯度下降
+
+## Exercise3. Softmax分类器
+
+This exercise is analogous to the SVM exercise. You will:
+
+- implement a fully-vectorized **loss function** for the Softmax classifier
+- implement the fully-vectorized expression for its **analytic gradient**
+
+* **check your implementation** with numerical gradient
+
+- use a validation set to **tune the learning rate and regularization** strength
+
+* **optimize** the loss function with **SGD**
+* **visualize** the final learned weights
+
+$$
+Softmax: L_i = -log(\frac{e^{s_{y_i}}}{\sum_{j}e^{s_j}})
+$$
