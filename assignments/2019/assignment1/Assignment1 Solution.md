@@ -81,5 +81,46 @@ This exercise is analogous to the SVM exercise. You will:
 * **visualize** the final learned weights
 
 $$
-Softmax: L_i = -log(\frac{e^{s_{y_i}}}{\sum_{j}e^{s_j}})
+Softmax: P_i = -log(\frac{e^{s_{y_i}}}{\sum_{j}e^{s_j}})
 $$
+
+$$
+Cross Entropy Loss: L_i = H_i = -log(P_i)
+$$
+
+- Softmax的数值稳定问题：在编程实现的时候容易发现直接用Softmax容易出现各种损失函数爆炸、梯度爆炸的问题，这是因为浮点数的范围是有限的。在做指数运算$e^{s_j}$的时候，如果指数过大，就直接上溢(overflow)了。为了避免上溢的问题，需要对所有的指数项$s_j$做一次均值迁移，减去其中的最大项。
+- Softmax求导：
+
+  1. $y_i = j$:
+
+     $$
+     \frac{\delta P_i}{\delta s_{j}} =\frac{\delta}{\delta s_{j}}(\frac{e^{s_{y_i}}}{\sum_{k}e^{s_k}}) = \frac{e^{s_{y_i}}\cdot \sum_{k}e^{s_k} - e^{s_{y_i}}\cdot e^{s_j}}{(\sum_{k}e^{s_k})^2} = P_i-P_i^2 = P_i(1-P_i)
+     $$
+  2. $y_i\neq j $
+
+     $$
+     \frac{\delta P_i}{\delta s_{j}} =\frac{\delta}{\delta s_{j}}(\frac{e^{s_{y_i}}}{\sum_{k}e^{s_k}}) = \frac{0\cdot \sum_{k}e^{s_k} - e^{s_{y_i}}\cdot e^{s_j}}{(\sum_{k}e^{s_k})^2} = -P_i \cdot P_j
+     $$
+- Softmax 结合 交叉熵损失函数求导：
+
+  $$
+  H(y_i,P_i) = -\sum_iy_i\cdot log(P_i), 其中y_i是one-hot向量
+  $$
+
+  $$
+  \frac{\delta H}{\delta s_j} = \frac{\delta H}{\delta P_i}\frac{\delta P_i}{\delta s_j} = -\sum_iy_i\frac{1}{P_i}\cdot \frac{\delta P_i}{\delta s_j} = -\sum_{i=j}\frac{y_i}{P_i}\cdot P_i(1-P_i)-\sum_{i\neq j}\frac{y_i}{P_i}\cdot (-P_iP_j) =-y_j + y_jP_j +\sum_{i\neq j}y_iP_j= P_j-y_j
+  $$
+
+  即为Softmax的结果与其对应标签的独热函数相减。
+
+## Exercise4. 双层神经网络
+
+In this exercise we will develop a neural network with fully-connected layers to perform classification, and test it out on the CIFAR-10 dataset.
+
+- Architecture: input - fully connected layer - ReLU - fully connected layer - softmax
+- Debug on training:
+  1. Plot the loss function and the accuracies on the training and validation sets during optimization.
+  2. Visualize the weights that were learned in the first layer of the network.
+  3. 损失函数非规律性降低 -> 学习率太低
+  4. 训练集和验证集准确率差异不大，但测试表现不好 -> 模型参数量需增大
+  5. 调节以下超参数：隐藏层参数量、学习率、训练轮数、参数正则化强度、学习率下降强度等
