@@ -1,11 +1,8 @@
 # Assignment 1
 
-
-
 ## Exercise1. K-Nearest Neighbor Classifier
 
 Understand the basic Image Classification pipeline, cross-validation, and gain proficiency in writing efficient, vectorized code.
-
 
 ### Cifar-10 数据集
 
@@ -19,13 +16,11 @@ Understand the basic Image Classification pipeline, cross-validation, and gain p
 
 共有10个类型
 
-
 训练时，以**5000张训练样本和500张测试样本为一组**
 
 X_train $5000\times3072$
 
 X_test  $ 500\times3072$
-
 
 ### KNN第一步：计算每个训练样本和测试样本的距离
 
@@ -64,8 +59,10 @@ $$
 Hinge Loss:L_i = \sum_{j\neq y_i}max(0, s_j-s_{y_i} + 1)
 $$
 
-Loss可用上式计算得出。
+* Loss可用上式计算得出。
 
-梯度即为每个像素的值
+* 梯度即为每个像素的值
 
 ### 随机梯度下降SGD
+
+* 每次选择Minibatch（约200个样本）进行训练和梯度下降
