@@ -1,6 +1,6 @@
 # Assignment 1
 
-## Exercise1. K-Nearest Neighbor Classifier
+## Exercise1. K-最临近分类器 K-Nearest Neighbor Classifier
 
 Understand the basic Image Classification pipeline, cross-validation, and gain proficiency in writing efficient, vectorized code.
 
@@ -37,7 +37,7 @@ X_test  $ 500\times3072$
 
 * 把训练集再分成N份，每次选一份作为测试集，剩下的作为训练集。以此来找出表现最好的k
 
-## Exercise2. 训练一个SVM(Support Vector Machine)
+## Exercise2. 训练支持向量机 Support Vector Machine
 
 In this exercise you will:
 
@@ -66,7 +66,7 @@ $$
 
 * 每次选择Minibatch（约200个样本）进行训练和梯度下降
 
-## Exercise3. Softmax分类器
+## Exercise3. Softmax分类器 Softmax Classifier
 
 This exercise is analogous to the SVM exercise. You will:
 
@@ -113,7 +113,7 @@ $$
 
   即为Softmax的结果与其对应标签的独热函数相减。
 
-## Exercise4. 双层神经网络
+## Exercise4. 双层神经网络 Two-Layer Neural Network
 
 In this exercise we will develop a neural network with fully-connected layers to perform classification, and test it out on the CIFAR-10 dataset.
 
@@ -121,6 +121,14 @@ In this exercise we will develop a neural network with fully-connected layers to
 - Debug on training:
   1. Plot the loss function and the accuracies on the training and validation sets during optimization.
   2. Visualize the weights that were learned in the first layer of the network.
-  3. 损失函数非规律性降低 -> 学习率太低
-  4. 训练集和验证集准确率差异不大，但测试表现不好 -> 模型参数量需增大
-  5. 调节以下超参数：隐藏层参数量、学习率、训练轮数、参数正则化强度、学习率下降强度等
+  3. Visualize the mistakes that it makes. For example, showing images that are misclassified.
+  4. 损失函数非规律性降低 -> 学习率太低
+  5. 训练集和验证集准确率差异不大，但测试表现不好 -> 模型参数量需增大
+  6. 调节以下超参数：隐藏层参数量、学习率、训练轮数、参数正则化强度、学习率下降强度等
+
+## Exercise5. 图像特征 Image Features
+
+Improve our classification performance by training linear classifiers not on raw pixels but on features that are computed from the raw pixels.
+
+* 方向梯度直方图 HOG(Histogram of Oriented Gradients): 仅关注图像中的纹理信息
+* 色相(Hue)直方图: 仅关注图像中的色彩信息
