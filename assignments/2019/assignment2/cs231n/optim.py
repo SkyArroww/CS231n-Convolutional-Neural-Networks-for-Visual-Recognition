@@ -67,7 +67,9 @@ def sgd_momentum(w, dw, config=None):
     ###########################################################################
     # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
 
-    pass
+    dw = config['momentum'] * v - config['learning_rate'] * dw
+    next_w = w + dw
+    v = dw
 
     # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
     ###########################################################################
@@ -104,8 +106,10 @@ def rmsprop(w, dw, config=None):
     # config['cache'].                                                        #
     ###########################################################################
     # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
-
-    pass
+    config['cache'] = config['decay_rate'] * config['cache'] + (1 - config['decay_rate']) * dw**2
+    next_w = w - config['learning_rate'] * dw / (np.sqrt(config['cache']) + config['epsilon'])
+    
+    
 
     # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
     ###########################################################################
@@ -149,8 +153,15 @@ def adam(w, dw, config=None):
     ###########################################################################
     # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
 
-    pass
-
+    first_momentum = config['beta1'] * config['m'] + (1 - config['beta1']) * dw
+    second_momentum = config['beta2'] * config['v'] + (1 - config['beta2']) * dw**2
+    first_unbias = first_momentum / (1 - config['beta1'] ** (config['t'] + 1))
+    second_unbias = second_momentum / (1 - config['beta2'] ** (config['t'] + 1))
+    next_w = w - config['learning_rate'] * first_unbias / (np.sqrt(second_unbias) + config['epsilon'])
+    config['m'] = first_momentum
+    config['v'] = second_momentum
+    config['t'] += 1
+    
     # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
     ###########################################################################
     #                             END OF YOUR CODE                            #
