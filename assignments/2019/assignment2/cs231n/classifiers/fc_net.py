@@ -276,18 +276,17 @@ class FullyConnectedNet(object):
             h, fc_cache = affine_forward(outs[f'out{i}'], W, b)
             
             bn_cache = {}
-            cn_cache = {}
+            dp_cache = {}
             if self.normalization == 'batchnorm':
                 h, bn_cache = batchnorm_forward(h, self.params[f'gamma{i+1}'], self.params[f'beta{i+1}'], self.bn_params[i])
             elif self.normalization == 'layernorm':
                 h, bn_cache = layernorm_forward(h, self.params[f'gamma{i+1}'], self.params[f'beta{i+1}'], self.bn_params[i])
-            # else:
-            # if self.use_dropout:
-            #     h, dropout_cache = dropout_forward(h, self.dropout_param)
-            #     cache = (cache, dropout_cache)
+            elif self.use_dropout:
+                h, dp_cache = dropout_forward(h, self.dropout_param)
+
             out, relu_cache = relu_forward(h)
             
-            cache = [fc_cache, relu_cache, bn_cache]
+            cache = [fc_cache, relu_cache, bn_cache, dp_cache]
             outs[f'out{i+1}'] = out
             caches[f'cache{i+1}'] = cache
             
