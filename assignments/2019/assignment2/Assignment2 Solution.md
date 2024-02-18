@@ -43,3 +43,7 @@ Dropout是一种通过在前向传播过程中随机将一些输出激活设置�
 ## Exercise 4. 卷积神经网络 Convolutional Neural Networks
 
 正常按照提示实现即可。
+
+## Exercise 5. Pytorch on CIFAR-10
+
+正常按照提示实现即可。
